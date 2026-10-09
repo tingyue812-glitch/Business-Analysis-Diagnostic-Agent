@@ -1,197 +1,113 @@
-# Business Analysis Diagnostic Agent
+# 商业分析诊断 Agent (Business Analysis Diagnostic Agent)
 
-An AI-powered business analysis agent built with **Dify**, designed to support structured business problem diagnosis, data quality validation, metric analysis, and evidence-based decision-making.
-
-## 1. Project Overview
-
-Business analysis requires more than identifying changes in metrics. Analysts must first validate data reliability, clarify metric definitions, investigate potential drivers, and distinguish genuine business problems from data quality issues.
-
-This project aims to design an AI Agent that follows a structured business analysis process instead of generating conclusions directly from a business question.
-
-Built with Dify, the agent combines prompt engineering, business analysis frameworks, and structured reasoning to support a more systematic approach to diagnosing business problems.
-
-## 2. Design Objectives
-
-* **Structured problem-solving:** Break down business questions into clear analytical steps.
-* **Data reliability:** Check data quality before interpreting business metrics.
-* **Metric-driven analysis:** Identify relevant metrics and clarify their calculation logic.
-* **Hypothesis-driven diagnosis:** Organize potential explanations and assess them against available evidence.
-* **Actionable recommendations:** Translate analytical findings into business actions and follow-up validation plans.
-* **Evidence-based reasoning:** Distinguish confirmed facts, analytical interpretations, and unverified hypotheses.
-
-## 3. Core Design
-
-### 3.1 Data Quality Validation
-
-The agent is designed to assess whether the available data is reliable enough to support business conclusions.
-
-The validation logic covers:
-
-* Missing values and incomplete records.
-* Duplicate records and potential aggregation issues.
-* Date coverage and data format consistency.
-* Metric definition and denominator consistency.
-* Potential timestamp anomalies.
-* Risks associated with table joins and user identifier matching, when relevant data is available.
-
-A key design principle is to **validate the data before interpreting the business outcome**. An unusual metric may reflect a real business change, a data collection issue, or an inconsistency in metric definitions.
-
-### 3.2 Business Problem Structuring
-
-The agent first clarifies the business question and defines the scope of analysis.
-
-It then identifies the relevant business metrics, comparison periods, segmentation dimensions, and additional data required to investigate the problem.
-
-For operational and e-commerce scenarios, the analytical framework considers dimensions such as:
-
-* **People:** user activity, new and existing users, and user conversion.
-* **Products and supply:** product availability and merchant participation.
-* **Traffic and touchpoints:** exposure, clicks, and traffic sources.
-* **Conversion funnel:** browsing, interaction, add-to-cart, ordering, and payment.
-
-The framework is selected according to the business question and the fields available in the dataset.
-
-### 3.3 Metric Analysis and Anomaly Identification
-
-The agent is designed to use uploaded structured data to calculate relevant metrics and compare performance across available time periods or business segments.
-
-Its analytical approach includes:
-
-* Establishing a baseline for comparison.
-* Measuring absolute and relative changes.
-* Identifying metrics with notable changes.
-* Comparing affected segments with relevant reference groups.
-* Exploring relationships between upstream indicators and downstream business outcomes.
-
-The goal is to identify which metrics warrant further investigation, rather than assuming that a single metric explains the entire business problem.
-
-### 3.4 Hypothesis Tree Design
-
-The agent organizes potential explanations into a hypothesis tree.
-
-Each hypothesis is assessed according to the evidence available. The agent should distinguish between supported explanations, partially supported explanations, unsupported assumptions, and questions that cannot yet be answered.
-
-When evidence is insufficient, the agent identifies the additional data needed to evaluate the hypothesis.
-
-This design helps prevent unsupported conclusions and makes the analytical process easier to review.
-
-### 3.5 Business Recommendations and Validation
-
-The agent's final stage connects analytical findings with potential business actions.
-
-Recommendations are expected to include:
-
-* The issue requiring further investigation.
-* The potential driver supported by current evidence.
-* The next analytical check or data source required.
-* The proposed business action, where appropriate.
-* The metric or outcome that should be monitored afterward.
-
-This creates a feedback loop between business diagnosis, decision-making, and subsequent validation.
-
-## 4. Agent Workflow Design
-
-The agent follows a structured workflow:
-
-1. **Understand the business question**
-2. **Validate data quality**
-3. **Clarify metric definitions**
-4. **Identify relevant metrics and dimensions**
-5. **Calculate and compare available data**
-6. **Locate potential anomalies**
-7. **Construct and assess a hypothesis tree**
-8. **Summarize evidence-based findings**
-9. **Propose business recommendations and follow-up validation**
-
-The overall design principle is:
-
-**Data Quality → Metric Analysis → Anomaly Diagnosis → Hypothesis Assessment → Business Recommendations**
-
-## 5. Implementation Approach
-
-### Dify Application Design
-
-Dify is used as the platform for configuring the AI Agent and managing its instructions and available tools.
-
-### Prompt Engineering
-
-The system prompt defines the agent's role, analytical responsibilities, problem-solving sequence, data validation requirements, and expected output structure.
-
-Rather than instructing the model to answer business questions immediately, the prompt guides it through a consistent analytical process.
-
-### Structured Output Design
-
-The agent is instructed to organize its analysis into clear sections, including:
-
-* Data quality assessment.
-* Business problem definition.
-* Metric decomposition.
-* Required data and analytical approach.
-* Hypothesis tree.
-* Evidence-based conclusions.
-* Business recommendations.
-* Follow-up validation.
-
-### Data-Aware Reasoning
-
-The agent is instructed to use actual uploaded data when available, avoid inventing figures, and explicitly state when the available fields are insufficient to support a conclusion.
-
-SQL may be suggested as an analytical approach when appropriate, but the current implementation does not automatically execute SQL against a database.
-
-## 6. Technology Stack
-
-* **Dify:** AI Agent configuration and orchestration.
-* **Large Language Model (LLM):** natural language understanding and analytical reasoning.
-* **Prompt Engineering:** structured business analysis instructions and output design.
-* **Excel / Structured Data:** input data for analysis.
-* **GitHub:** project configuration backup and documentation.
-
-## 7. Repository Structure
-
-```text
-business-analysis-diagnostic-agent/
-├── README.md
-└── 商业分析助手.yml
-```
-
-* `README.md`: project objectives, design principles, analytical workflow, and implementation approach.
-* `商业分析助手.yml`: exported Dify application configuration.
-
-Additional documentation, prompt files, and screenshots can be added as the project evolves.
-
-## 8. Current Scope and Limitations
-
-The current project is an early-stage AI Agent prototype focused on structured business analysis.
-
-* It analyzes data supplied through supported file-upload workflows.
-* It does not currently connect directly to a live business database.
-* It does not automatically execute SQL queries.
-* Its analysis depends on the quality, granularity, and completeness of the provided data.
-* Its hypotheses and recommendations require validation before being used for consequential business decisions.
-* The use of a structured prompt does not guarantee that every calculation or conclusion will be correct.
-
-These limitations define the current implementation scope and provide a basis for future development.
-
-## 9. Future Development
-
-Potential improvements include:
-
-* More systematic and reusable data quality validation rules.
-* Additional business diagnosis scenarios and evaluation cases.
-* More reliable and reproducible quantitative calculations.
-* Integration with SQL-based analytical workflows.
-* Controlled database connectivity and query execution.
-* Evaluation of analytical accuracy, hypothesis quality, and recommendation usefulness.
-* Iterative prompt refinement based on observed failure cases.
-
-These items represent future development directions rather than currently implemented capabilities.
-
-## 10. Design Philosophy
-
-The central idea of this project is to design an AI Agent that supports **structured, data-aware, and evidence-based business analysis**.
-
-Instead of treating an AI model as a tool that simply generates explanations, the project emphasizes a disciplined analytical process:
-
-**Validate the data first, define the metrics, investigate the evidence, assess hypotheses, and recommend actions that can be tested.**
+> 基于 **Dify** 搭建的 AI 驱动商业分析助手，专注于结构化业务问题诊断、数据质量自动校验、指标归因拆解与假设驱动决策。
 
 ---
+
+## 📄 案例展示 (Showcase Cases)
+
+为了验证 Agent 在不同业务场景下的通用诊断与归因能力，本项目包含两套完整的实战测试案例：
+
+- 📊 **[案例一：城市级订单下探异常诊断](./examples/case1_city_anomaly.md)**
+  - **业务场景**：某日重庆城市订单量突降 16.24%，排查大盘与供给侧异常。
+  - **核心能力**：跨城市横向对比、DAU/转化率/商家数拆解、单因素敏感性测算。
+- 🎯 **[案例二：营销渠道加投 ROI 暴跌归因](./examples/case2_roi_anomaly.md)**
+  - **业务场景**：信息流渠道预算翻倍后，整体 ROI 从 9.39 骤降至 6.15。
+  - **核心能力**：公式自动重算补全、边际效应递减识别、转化漏斗与人群包归因。
+
+---
+
+## 💡 1. 项目背景与设计初衷
+
+传统的商业分析不仅需要看指标变化，更需要**先校验数据质量、明确指标定义、建立假设树，并区分直接事实与待验证推测**。
+
+本项目旨在设计一套具备**结构化思维**的 AI Agent，改变传统 LLM 直接回答业务问题容易产生“幻觉”或“缺乏数据依据”的痛点，引导大模型严格遵循专业商业分析师（BA）的思考路径：
+
+$$\text{数据校验} \rightarrow \text{指标拆解} \rightarrow \text{异常定位} \rightarrow \text{假设构建} \rightarrow \text{业务建议与验证}$$
+
+---
+
+## ✨ 2. 核心设计特色
+
+- **数据质量先验校验**：在解释任何业务指标前，优先检查数据缺失值、重复记录、时间粒度与字段逻辑冲突，防止“垃圾输入导出垃圾结论”。
+- **归因与事实隔离**：严格区分“数据直接支持的事实”、“合理推测”与“无法验证的假设”，拒绝无根据的臆测。
+- **公式与衍生指标自补全**：遇到数据表中缺失的导出指标（如 CVR、AOV、ROI），Agent 会基于基础字段自动进行公式重算与逻辑校验。
+- **假设树与情景测算**：建立因果假设树，并基于敏感性分析测算异常导致的潜在订单或收入损失量级。
+- **闭环业务 SOP**：输出兼具可执行性与后续验证规划的业务动作建议，而非空洞的大话。
+
+---
+
+## 🛠️ 3. Agent 诊断工作流设计
+
+Agent 内部遵循严格的 9 步诊断 SOP：
+
+1. **理解业务问题**：明确分析目标与对比基准（如：历史 7 天日均值）。
+2. **数据质量校验**：评估数据集的完整性、唯一性与一致性。
+3. **指标与逻辑拆解**：明确分子分母口径及关联指标公式。
+4. **多维交叉对比**：开展时间同比/环比、对照组（横向城市/渠道）比较。
+5. **异常定位**：识别拉低整体大盘的核心异常因子。
+6. **构建假设树**：按“人/货/场/漏斗”维度拆解可能的底层原因。
+7. **事实与推测隔离**：标明哪些结论已被当前数据证实，哪些尚待补全明细。
+8. **输出诊断报告**：生成结构化的 Markdown 诊断报告。
+9. **业务动作与验证规划**：提出止损建议及后续需要调取的数据字段（如 SQL 日志）。
+
+---
+
+## 📁 4. 项目目录结构
+
+```text
+Business-Analysis-Diagnostic-Agent/
+├── README.md                      # 项目主页（中文）
+├── README_EN.md                   # Project Overview (English)
+├── 商业分析助手.yml                 # Dify 导出的 Agent 工作流配置文件
+├── data/                          # 示例数据集
+│   ├── sample_data_city.xlsx      # 案例一：城市订单诊断数据集
+│   └── sample_data_channel_roi.xlsx# 案例二：渠道ROI诊断数据集
+├── prompts/                       # 核心 Prompt 设计
+│   └── system_prompt.md           # Dify System Prompt 思考框架
+├── examples/                      # 诊断报告与测试评估
+│   ├── case1_city_anomaly.md      # 案例一测试总结
+│   ├── case2_roi_anomaly.md       # 案例二测试总结
+│   └── raw_outputs/               # Agent 原始输出存档
+│       ├── case1_city_anomaly_output.md
+│       └── case2_roi_anomaly_output.md
+└── screenshots/                   # Dify 编排与对话效果截图
+    └── dify_workflow.png
+```
+
+---
+
+## 🚀 5. 快速开始与复现指南
+
+### 5.1 导入 Dify Agent
+1. 登录你的 [Dify](https://dify.ai/) 平台账号（支持云端版或私有化部署版）。
+2. 点击 **“创建应用”** $\rightarrow$ 选择 **“导入 DSL 文件”**。
+3. 选择本仓库中的 `商业分析助手.yml` 文件完成导入。
+
+### 5.2 运行诊断测试
+1. 进入 Dify 应用的对话控制台。
+2. 上传 `data/` 目录下的任意示例 Excel 文件（如 `sample_data_channel_roi.xlsx`）。
+3. 输入触发指令（例：`"请帮我排查9月8日业务指标异常的原因"`）。
+4. Agent 将自动输出完整的结构化诊断报告。
+
+---
+
+## 🔧 6. 技术栈与架构
+
+- **Agent 编排引擎**：Dify (Dify DSL / Application Workflow)
+- **大语言模型 (LLM)**：Claude 3.5 Sonnet / GPT-4o
+- **提示词工程 (Prompt Engineering)**：结构化逻辑框架、思维链 (CoT)、输出结构约束
+- **数据处理格式**：Excel (`.xlsx`) / CSV
+
+---
+
+## 📌 7. 局限性与未来迭代方向
+
+### 当前局限
+- 当前版本通过上传文件提供数据，尚未直接挂载数据库活连接。
+- 生成的假设与建议依赖上传数据的粒度（汇总数据无法直接下钻至用户 Log 明细）。
+
+### 未来规划
+- [ ] 接入 SQL 编写与数据库自动化查询 Tool。
+- [ ] 增加更多电商、SaaS 及用户流失场景的标准诊断 SOP。
+- [ ] 建立 Agent 诊断准确率与归因质量的自动化 Eval 评估集。
